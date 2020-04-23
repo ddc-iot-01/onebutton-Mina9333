@@ -1,46 +1,50 @@
 /*
  * Project: Using OneButton library
  * Description: Introduct Students to OneButton Library using a button and the serial monitor
- * Author: 
- * Date: 
+ * Author: Mina Khan
+ * Date: 3/3/2020
  */
 
-#include "OneButton.h"
-
-// Setup OneButton on pin 23
-
-// Create variables buttonState and flash
-
-
+#include <OneButton.h>
+OneButton button1(23,false);
+int buttonState=LOW;
+int flash=LOW;
 void setup() {
-
-// Setup Serial Monitor
-// Link oneButton library to functions click1, doubleclick1, longPressStart1
-oneButton button1(23,false);
-} 
-
-void loop() {
-  // keep watching the push buttons:
+Serial.begin(9600);
+while(!Serial);
+button1.attachClick(click1);
+button1.attachDoubleClick(doubleclick1);
+button1.attachLongPressStart(longPressStart1);
+button1.attachLongPressStop(longPressStop1);
+button1.setClickTicks(250);
+button1.setPressTicks(2000);
+/*if(Serial)Serial.println("Starting one Button on...");*/
+}
+void loop ()
+{
+  //keep watching the push buttons.
   button1.tick();
-} // loop
-
-
-// ----- button 1 callback functions
-
-// This function will be called when the button1 was pressed 1 time.
-void click1() {
-//change and print buttonState
+{
+void click1(){
+  Serial.println("button1 click.");
+  buttonState=!buttonState;
+  Serial.println("buttonState =");
+  Serial.print(buttonState);
+  void doubleclick1(){
+  Serial.println("Button 1 doubleclick.");
+  flash=!flash;
+  Serial.print("flash=");
+  Serial.println(flash);
   
-} // click1
+}
+void longPressStart1()
+{
+  Serial.println("button 1 longPress start");
+}
+void longPress1(){
+  Serial.println(" Button 1 longPress...");
+}
 
-
-// This function will be called when the button1 was pressed 2 times in a short timeframe.
-void doubleclick1() {
-// change state of flash and print
-} // doubleclick1
-
-
-// This function will be called once, when the button1 is pressed for a long time.
-void longPressStart1() {
-// print longPress
-} // longPressStart1
+void longPressStop1(){
+  Serial.println("Button 1 longPress stop");
+}
